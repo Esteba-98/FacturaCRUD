@@ -1,0 +1,55 @@
+﻿@model FacturaCRUD.Models.Factura
+
+<div id="deleteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-bold">Eliminar Factura</h2>
+            <button onclick="closeDeleteModal()" class="text-gray-600 hover:text-gray-900">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div>
+            <p>¿Está seguro de que desea eliminar esta factura?</p>
+            <div class="mb-4">
+                <label class="block text-lg mb-1">Numero Factura</label>
+                <input type="text" class="form-control w-full border border-gray-400 p-2 rounded" value="@Model.NumeroFactura" readonly id="deleteNumeroFactura" />
+            </div>
+            <div class="mb-4">
+                <label class="block text-lg mb-1">Fecha de Vencimiento</label>
+                <input type="text" class="form-control w-full border border-gray-400 p-2 rounded" value="@Model.FechaVencimiento.ToShortDateString()" readonly id="deleteFechaVencimiento" />
+            </div>
+            <form id="deleteForm" asp-action="Delete">
+                <input type="hidden" asp-for="Id" id="deleteId" />
+                <div class="flex justify-end">
+                    <button type="button" onclick="closeDeleteModal()" class="bg-gray-300 text-gray-700 px-4 py-2 rounded mr-2">Cancelar</button>
+                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Eliminar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('deleteForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                closeDeleteModal();
+                showToast(data.message);
+                setTimeout(() => {
+                    location.reload();
+                }, 5000);
+            }
+        });
+    });
+</script>

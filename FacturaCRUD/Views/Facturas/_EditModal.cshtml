@@ -1,0 +1,30 @@
+﻿@model FacturaCRUD.Models.Factura
+
+<div id="editModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-bold">Editar Factura</h2>
+            <button onclick="closeEditModal()" class="text-gray-600 hover:text-gray-900">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+            <input type="hidden" asp-for="Id" id="editId" />
+            <div class="mb-4">
+                <label asp-for="NumeroFactura" class="block text-lg mb-1">Numero Factura</label>
+                <input asp-for="NumeroFactura" class="form-control w-full border border-gray-400 p-2 rounded" id="editNumeroFactura" />
+                <span asp-validation-for="NumeroFactura" class="text-danger"></span>
+            </div>
+            <div class="mb-4">
+                <label asp-for="FechaVencimiento" class="block text-lg mb-1">Fecha de Vencimiento</label>
+                <input asp-for="FechaVencimiento" type="date" class="form-control w-full border border-gray-400 p-2 rounded" id="editFechaVencimiento" />
+                <span asp-validation-for="FechaVencimiento" class="text-danger"></span>
+            </div>
+            <div class="flex justify-end">
+                <button type="button" onclick="closeEditModal()" class="bg-gray-300 text-gray-700 px-4 py-2 rounded mr-2">Cancelar</button>
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
